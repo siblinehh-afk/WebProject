@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="finalweb.client/finalweb.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="FinalWeb.Server/FinalWeb.Server.csproj" />
+</Solution>

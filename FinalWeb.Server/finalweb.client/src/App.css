@@ -1,0 +1,255 @@
+﻿/* ========== Global Styles ========== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f6fa;
+    margin: 0;
+}
+
+/* ========== Navbar ========== */
+.navbar {
+    padding: 12px 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* ========== Auth Pages (Login/Register) ========== */
+.auth-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    width: 420px;
+    padding: 40px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+    .auth-card h2 {
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 30px;
+    }
+
+/* ========== Dashboard Cards ========== */
+.dash-card {
+    border: none;
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+    .dash-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+    }
+
+    .dash-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    .dash-card.blue::before {
+        background: #0d6efd;
+    }
+
+    .dash-card.green::before {
+        background: #198754;
+    }
+
+    .dash-card.orange::before {
+        background: #fd7e14;
+    }
+
+    .dash-card h3 {
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #1a1a2e;
+    }
+
+    .dash-card p {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+
+/* ========== Page Headers ========== */
+.page-header {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: white;
+    padding: 30px 0;
+    margin-bottom: 30px;
+}
+
+    .page-header h2 {
+        font-weight: 700;
+        margin: 0;
+    }
+
+/* ========== Form Cards ========== */
+.form-card {
+    border: none;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    background: white;
+}
+
+    .form-card h5 {
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+/* ========== Tables ========== */
+.custom-table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+    .custom-table thead {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+    }
+
+        .custom-table thead th {
+            color: white;
+            font-weight: 600;
+            padding: 14px 16px;
+            border: none;
+        }
+
+    .custom-table tbody td {
+        padding: 12px 16px;
+        vertical-align: middle;
+    }
+
+    .custom-table tbody tr:hover {
+        background-color: #f8f9ff;
+    }
+
+/* ========== Browse Cards (Tables/Menu) ========== */
+.browse-card {
+    border: none;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    height: 100%;
+}
+
+    .browse-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .browse-card .card-body {
+        padding: 20px;
+    }
+
+    .browse-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+.no-image {
+    height: 200px;
+    background: linear-gradient(135deg, #e8e8e8, #f5f5f5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 1.1rem;
+}
+
+/* ========== Reservation Cards ========== */
+.reservation-card {
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-left: 5px solid #ffc107;
+}
+
+    .reservation-card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .reservation-card.confirmed {
+        border-left-color: #198754;
+    }
+
+    .reservation-card.cancelled {
+        border-left-color: #dc3545;
+    }
+
+/* ========== Filter Buttons ========== */
+.filter-group .btn {
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+/* ========== Badges ========== */
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+/* ========== Buttons ========== */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
+.btn-lg {
+    padding: 12px 30px;
+}
+
+/* ========== Reserve Form ========== */
+.reserve-card {
+    border: none;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+    .reserve-card h4 {
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+/* ========== Price Tag ========== */
+.price-tag {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0d6efd;
+}
