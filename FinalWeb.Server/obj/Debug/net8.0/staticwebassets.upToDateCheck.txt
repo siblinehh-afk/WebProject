@@ -1,8 +1,0 @@
-wwwroot\assets\index-BFhQpAQ-.js
-wwwroot\assets\index-D6g4pEIe.js
-wwwroot\assets\index-DYl9F07y.css
-wwwroot\assets\index-OKDpBvEQ.css
-wwwroot\assets\index-sRdQ4e66.js
-wwwroot\favicon.svg
-wwwroot\icons.svg
-wwwroot\index.html
