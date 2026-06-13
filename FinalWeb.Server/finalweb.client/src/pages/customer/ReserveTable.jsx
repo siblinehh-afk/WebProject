@@ -3,11 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { getTableById, createReservation } from "../../services/api";
 
+const TIME_SLOTS = [
+    "12:00 PM - 2:00 PM",
+    "2:00 PM - 4:00 PM",
+    "5:00 PM - 7:00 PM",
+    "7:00 PM - 9:00 PM",
+    "9:00 PM - 11:00 PM",
+];
+
 function ReserveTable() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [table, setTable] = useState(null);
-    const [form, setForm] = useState({ reservationDate: "", timeSlot: "", guestCount: "" });
+    const [form, setForm] = useState({ reservationDate: "", timeSlot: "", guestCount: 2 });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
@@ -24,13 +32,16 @@ function ReserveTable() {
         }
     };
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const setGuests = (n) => setForm({ ...form, guestCount: Math.max(1, Math.min(table ? table.capacity : 99, n)) });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+
+        if (!form.reservationDate || !form.timeSlot) {
+            setError("Please pick a date and time.");
+            return;
+        }
 
         if (parseInt(form.guestCount) > table.capacity) {
             setError(`Guest count cannot exceed ${table.capacity}`);
@@ -51,48 +62,61 @@ function ReserveTable() {
         }
     };
 
-    if (!table) return <div className="container mt-5">Loading...</div>;
+    if (!table) return (<div><Navbar /><div className="eb-container eb-section">Loading…</div></div>);
 
     return (
         <div>
             <Navbar />
-            <div className="container mt-4">
-                <div className="row justify-content-center">
-                    <div className="col-md-6">
-                        <div className="card shadow-lg p-4 mb-4" style={{ borderRadius: "15px" }}>
-                            <h4 className="fw-bold">Table #{table.tableNumber}</h4>
-                            <p>Capacity: {table.capacity} seats</p>
-                            <p>Location: {table.location}</p>
-                            {table.description && <p className="text-muted">{table.description}</p>}
-                        </div>
+            <div className="eb-container eb-narrow eb-section">
+                <div className="eb-head">
+                    <div className="eb-eyebrow">Reservations</div>
+                    <h1>Book Table #{table.tableNumber}</h1>
+                </div>
 
-                        <div className="card shadow-lg p-4" style={{ borderRadius: "15px" }}>
-                            <h4 className="fw-bold mb-3">Make a Reservation</h4>
-                            {error && <div className="alert alert-danger">{error}</div>}
-                            {success && <div className="alert alert-success">{success}</div>}
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">Date</label>
-                                    <input type="date" name="reservationDate" className="form-control" value={form.reservationDate} onChange={handleChange} required />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">Time Slot</label>
-                                    <select name="timeSlot" className="form-select" value={form.timeSlot} onChange={handleChange} required>
-                                        <option value="">Select time</option>
-                                        <option value="12:00 PM - 2:00 PM">12:00 PM - 2:00 PM</option>
-                                        <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
-                                        <option value="5:00 PM - 7:00 PM">5:00 PM - 7:00 PM</option>
-                                        <option value="7:00 PM - 9:00 PM">7:00 PM - 9:00 PM</option>
-                                        <option value="9:00 PM - 11:00 PM">9:00 PM - 11:00 PM</option>
-                                    </select>
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">Number of Guests</label>
-                                    <input type="number" name="guestCount" className="form-control" value={form.guestCount} onChange={handleChange} min="1" max={table.capacity} required />
-                                </div>
-                                <button className="btn btn-primary btn-lg w-100">Confirm Reservation</button>
-                            </form>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 20 }}>
+                    <div className="eb-card eb-card--pad">
+                        <div className="eb-between" style={{ marginBottom: 6 }}>
+                            <span style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 600, fontSize: 24 }}>Table #{table.tableNumber}</span>
+                            <span className="eb-badge is-available">Seats {table.capacity}</span>
                         </div>
+                        <div style={{ fontSize: 13.5, color: "var(--muted2)" }}>{table.location}</div>
+                        {table.description && <p style={{ fontSize: 13, color: "var(--muted)", margin: "8px 0 0" }}>{table.description}</p>}
+                    </div>
+
+                    <div className="eb-card eb-card--pad">
+                        <h3 style={{ fontSize: 22, marginBottom: 18 }}>Make a reservation</h3>
+                        {error && <div className="eb-alert eb-alert--error">{error}</div>}
+                        {success && <div className="eb-alert eb-alert--success">{success}</div>}
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="eb-field">
+                                <label className="eb-label">Date</label>
+                                <input className="eb-input" type="date" value={form.reservationDate}
+                                    onChange={(e) => setForm({ ...form, reservationDate: e.target.value })} required />
+                            </div>
+
+                            <div className="eb-field">
+                                <label className="eb-label">Time slot</label>
+                                <div className="eb-row" style={{ gap: 9, flexWrap: "wrap" }}>
+                                    {TIME_SLOTS.map((s) => (
+                                        <button type="button" key={s}
+                                            className={`eb-chip ${form.timeSlot === s ? "is-active" : ""}`}
+                                            onClick={() => setForm({ ...form, timeSlot: s })}>{s}</button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="eb-field">
+                                <label className="eb-label">Guests (max {table.capacity})</label>
+                                <div className="eb-row" style={{ gap: 16 }}>
+                                    <button type="button" className="eb-btn eb-btn--ghost" style={{ width: 42, padding: 0 }} onClick={() => setGuests(form.guestCount - 1)}>−</button>
+                                    <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 600, minWidth: 30, textAlign: "center" }}>{form.guestCount}</span>
+                                    <button type="button" className="eb-btn eb-btn--ghost" style={{ width: 42, padding: 0 }} onClick={() => setGuests(form.guestCount + 1)}>+</button>
+                                </div>
+                            </div>
+
+                            <button className="eb-btn eb-btn--primary eb-btn--lg eb-btn--block" style={{ marginTop: 8 }}>Confirm reservation</button>
+                        </form>
                     </div>
                 </div>
             </div>

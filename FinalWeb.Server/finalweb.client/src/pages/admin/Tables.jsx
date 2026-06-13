@@ -45,59 +45,72 @@ function AdminTables() {
     return (
         <div>
             <Navbar />
-            <div className="page-header">
-                <div className="container"><h2>Manage Tables</h2></div>
-            </div>
-            <div className="container">
-                {error && <div className="alert alert-danger">{error}</div>}
-                <div className="form-card">
-                    <h5>{isEdit ? "Edit Table" : "Add New Table"}</h5>
+            <div className="eb-container eb-section">
+                <div className="eb-head">
+                    <div className="eb-eyebrow">Staff · Floor plan</div>
+                    <h1>Table management</h1>
+                </div>
+
+                {error && <div className="eb-alert eb-alert--error">{error}</div>}
+
+                <div className="eb-card eb-card--pad" style={{ marginBottom: 26 }}>
+                    <h3 style={{ fontSize: 20, marginBottom: 16 }}>{isEdit ? "Edit table" : "Add new table"}</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="row g-3">
-                            <div className="col-md-2">
-                                <input type="number" name="tableNumber" placeholder="Table #" className="form-control" value={table.tableNumber} onChange={handleChange} />
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Table number</label>
+                                <input className="eb-input" type="number" name="tableNumber" placeholder="12" value={table.tableNumber} onChange={handleChange} />
                             </div>
-                            <div className="col-md-2">
-                                <input type="number" name="capacity" placeholder="Capacity" className="form-control" value={table.capacity} onChange={handleChange} />
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Capacity</label>
+                                <input className="eb-input" type="number" name="capacity" placeholder="4" value={table.capacity} onChange={handleChange} />
                             </div>
-                            <div className="col-md-2">
-                                <select name="location" className="form-select" value={table.location} onChange={handleChange}>
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Location</label>
+                                <select className="eb-select" name="location" value={table.location} onChange={handleChange}>
                                     <option value="Indoor">Indoor</option>
                                     <option value="Outdoor">Outdoor</option>
                                 </select>
                             </div>
-                            <div className="col-md-3">
-                                <input type="text" name="description" placeholder="Description" className="form-control" value={table.description} onChange={handleChange} />
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Description</label>
+                                <input className="eb-input" type="text" name="description" placeholder="Cozy two-top by the window" value={table.description} onChange={handleChange} />
                             </div>
-                            <div className="col-md-1 d-flex align-items-center">
-                                <div className="form-check">
-                                    <input type="checkbox" name="isAvailable" className="form-check-input" checked={table.isAvailable} onChange={handleChange} />
-                                    <label className="form-check-label">Available</label>
-                                </div>
-                            </div>
-                            <div className="col-md-2">
-                                <button type="submit" className="btn btn-primary w-100">{isEdit ? "Update" : "Add"}</button>
+                        </div>
+
+                        <div className="eb-row" style={{ justifyContent: "space-between", marginTop: 16, flexWrap: "wrap", gap: 12 }}>
+                            <label className="eb-row" style={{ gap: 10, cursor: "pointer" }}>
+                                <button type="button" className={`eb-toggle ${table.isAvailable ? "is-on" : ""}`} onClick={() => setTable({ ...table, isAvailable: !table.isAvailable })}>
+                                    <span className="eb-toggle__knob" />
+                                </button>
+                                <span style={{ fontSize: 13.5, fontWeight: 500 }}>Available for booking</span>
+                            </label>
+                            <div className="eb-row" style={{ gap: 10 }}>
+                                {isEdit && <button type="button" className="eb-btn eb-btn--ghost" onClick={clearForm}>Cancel</button>}
+                                <button type="submit" className="eb-btn eb-btn--primary">{isEdit ? "Update table" : "Add table"}</button>
                             </div>
                         </div>
                     </form>
                 </div>
 
-                <div className="custom-table">
-                    <table className="table table-hover mb-0">
-                        <thead className="table-dark">
-                            <tr><th>Table #</th><th>Capacity</th><th>Location</th><th>Status</th><th>Description</th><th>Actions</th></tr>
+                <div className="eb-table-wrap">
+                    <table className="eb-table">
+                        <thead>
+                            <tr><th>Table #</th><th>Capacity</th><th>Location</th><th>Status</th><th>Description</th><th style={{ textAlign: "right" }}>Actions</th></tr>
                         </thead>
                         <tbody>
                             {tables.map((t) => (
                                 <tr key={t.id}>
-                                    <td>{t.tableNumber}</td>
+                                    <td style={{ fontWeight: 600, color: "var(--ink)" }}>#{t.tableNumber}</td>
                                     <td>{t.capacity} seats</td>
                                     <td>{t.location}</td>
-                                    <td><span className={`badge ${t.isAvailable ? "bg-success" : "bg-danger"}`}>{t.isAvailable ? "Available" : "Unavailable"}</span></td>
+                                    <td><span className={`eb-badge ${t.isAvailable ? "is-available" : "is-cancelled"}`}>{t.isAvailable ? "Available" : "Unavailable"}</span></td>
                                     <td>{t.description}</td>
                                     <td>
-                                        <button onClick={() => handleEdit(t)} className="btn btn-warning btn-sm me-2">Edit</button>
-                                        <button onClick={() => handleDelete(t.id)} className="btn btn-danger btn-sm">Delete</button>
+                                        <div className="eb-row" style={{ gap: 8, justifyContent: "flex-end" }}>
+                                            <button className="eb-btn eb-btn--ghost eb-btn--sm" onClick={() => handleEdit(t)}>Edit</button>
+                                            <button className="eb-btn eb-btn--danger eb-btn--sm" onClick={() => handleDelete(t.id)}>Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

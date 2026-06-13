@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { getReservations, updateReservation, deleteReservation } from "../../services/api";
 
+const FILTERS = ["All", "Pending", "Confirmed", "Cancelled"];
+
 function AdminReservations() {
     const [reservations, setReservations] = useState([]);
     const [filter, setFilter] = useState("All");
@@ -41,47 +43,52 @@ function AdminReservations() {
     };
 
     const filtered = filter === "All" ? reservations : reservations.filter(r => r.status === filter);
+    const badgeClass = (s) => s === "Confirmed" ? "is-confirmed" : s === "Cancelled" ? "is-cancelled" : "is-pending";
 
     return (
         <div>
             <Navbar />
-            <div className="container mt-4">
-                <h2 className="mb-4 fw-bold">All Reservations</h2>
-                {error && <div className="alert alert-danger">{error}</div>}
-
-                <div className="mb-3">
-                    <div className="btn-group">
-                        {["All", "Pending", "Confirmed", "Cancelled"].map(s => (
-                            <button key={s} className={`btn ${filter === s ? "btn-primary" : "btn-outline-primary"}`} onClick={() => setFilter(s)}>{s}</button>
-                        ))}
-                    </div>
+            <div className="eb-container eb-section">
+                <div className="eb-head">
+                    <div className="eb-eyebrow">Staff · Floor manager</div>
+                    <h1>All reservations</h1>
                 </div>
 
-                <table className="table table-bordered table-hover shadow">
-                    <thead className="table-dark">
-                        <tr>
-                            <th>#</th><th>Customer</th><th>Table</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th><th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filtered.map((r) => (
-                            <tr key={r.id}>
-                                <td>{r.id}</td>
-                                <td>{r.user?.name}</td>
-                                <td>Table #{r.table?.tableNumber}</td>
-                                <td>{r.reservationDate?.split("T")[0]}</td>
-                                <td>{r.timeSlot}</td>
-                                <td>{r.guestCount}</td>
-                                <td><span className={`badge ${r.status === "Confirmed" ? "bg-success" : r.status === "Cancelled" ? "bg-danger" : "bg-warning text-dark"}`}>{r.status}</span></td>
-                                <td>
-                                    {r.status === "Pending" && <button className="btn btn-success btn-sm me-2" onClick={() => handleStatus(r.id, "Confirmed")}>Confirm</button>}
-                                    {r.status !== "Cancelled" && <button className="btn btn-danger btn-sm me-2" onClick={() => handleStatus(r.id, "Cancelled")}>Cancel</button>}
-                                    <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(r.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                {error && <div className="eb-alert eb-alert--error">{error}</div>}
+
+                <div className="eb-row" style={{ gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
+                    {FILTERS.map((s) => (
+                        <button key={s} className={`eb-chip ${filter === s ? "is-active" : ""}`} onClick={() => setFilter(s)}>{s}</button>
+                    ))}
+                </div>
+
+                <div className="eb-table-wrap">
+                    <table className="eb-table">
+                        <thead>
+                            <tr><th>#</th><th>Customer</th><th>Table</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th><th style={{ textAlign: "right" }}>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            {filtered.map((r) => (
+                                <tr key={r.id}>
+                                    <td>{r.id}</td>
+                                    <td style={{ fontWeight: 500, color: "var(--ink)" }}>{r.user?.name}</td>
+                                    <td>Table #{r.table?.tableNumber}</td>
+                                    <td>{r.reservationDate?.split("T")[0]}</td>
+                                    <td>{r.timeSlot}</td>
+                                    <td>{r.guestCount}</td>
+                                    <td><span className={`eb-badge ${badgeClass(r.status)}`}>{r.status}</span></td>
+                                    <td>
+                                        <div className="eb-row" style={{ gap: 8, justifyContent: "flex-end" }}>
+                                            {r.status === "Pending" && <button className="eb-btn eb-btn--success eb-btn--sm" onClick={() => handleStatus(r.id, "Confirmed")}>Confirm</button>}
+                                            {r.status !== "Cancelled" && <button className="eb-btn eb-btn--danger eb-btn--sm" onClick={() => handleStatus(r.id, "Cancelled")}>Cancel</button>}
+                                            <button className="eb-btn eb-btn--ghost eb-btn--sm" onClick={() => handleDelete(r.id)}>Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

@@ -1,255 +1,760 @@
-﻿/* ========== Global Styles ========== */
+﻿/* =====================================================================
+   EMBER — design system for finalweb.client (React)
+   Imported once in main.jsx. Replaces Bootstrap + App.css.
+   ===================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Geist:wght@400;500;600;700&display=swap');
+
+:root {
+    --ember: #BC4B2B;
+    --ember-dark: #A53F22;
+    --ink: #241C16;
+    --cream: #F4EEE3;
+    --paper: #F7F2E9;
+    --surface: #FFFFFF;
+    --muted: #94897A;
+    --muted2: #7A6F60;
+    --line: #E7DECF;
+    --gold: #B98A45;
+    --green: #3E7C5A;
+    --amber: #C0883E;
+    --red: #B4544A;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f6fa;
+    margin: 0;
+    font-family: 'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond',Georgia,serif;
+    font-weight: 600;
+    letter-spacing: -0.005em;
     margin: 0;
 }
 
-/* ========== Navbar ========== */
-.navbar {
-    padding: 12px 24px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
-.navbar-brand {
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+input, select, textarea, button {
+    font-family: inherit;
 }
 
-/* ========== Auth Pages (Login/Register) ========== */
-.auth-bg {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+/* layout */
+.eb-container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 28px;
+}
+
+.eb-narrow {
+    max-width: 900px;
+}
+
+.eb-section {
+    padding: 34px 0 80px;
+}
+
+.eb-row {
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
-.auth-card {
-    width: 420px;
-    padding: 40px;
-    border-radius: 20px;
-    background: white;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+.eb-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
 }
 
-    .auth-card h2 {
-        font-weight: 800;
-        color: #1a1a2e;
-        margin-bottom: 30px;
+/* topbar */
+.eb-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(244,238,227,.86);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+}
+
+.eb-topbar__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 68px;
+    padding: 10px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.eb-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.eb-brand__mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #E08A4F, #BC4B2B 70%);
+    box-shadow: 0 0 14px rgba(188,75,43,.45);
+}
+
+.eb-brand__name {
+    display: block;
+    font-family: 'Cormorant Garamond',serif;
+    font-weight: 700;
+    font-size: 23px;
+    letter-spacing: .16em;
+    line-height: 1;
+}
+
+.eb-brand__sub {
+    display: block;
+    font-size: 9.5px;
+    letter-spacing: .32em;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.eb-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+    .eb-nav a {
+        padding: 9px 14px;
+        border-radius: 9px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: var(--muted);
+        cursor: pointer;
     }
 
-/* ========== Dashboard Cards ========== */
-.dash-card {
-    border: none;
-    border-radius: 16px;
-    padding: 40px 30px;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    height: 100%;
-    position: relative;
-    overflow: hidden;
+        .eb-nav a:hover {
+            color: var(--ink);
+        }
+
+        .eb-nav a.active {
+            color: var(--ink);
+            font-weight: 600;
+            background: #EAE0D0;
+        }
+
+.eb-userbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-    .dash-card::before {
+.eb-welcome {
+    font-size: 13px;
+    color: var(--muted2);
+}
+
+.eb-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* buttons */
+.eb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 0 18px;
+    height: 42px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .18s ease;
+    background: var(--ember);
+    color: #fff;
+}
+
+    .eb-btn:hover {
+        transform: translateY(-1px);
+    }
+
+.eb-btn--primary {
+    background: var(--ember);
+}
+
+    .eb-btn--primary:hover {
+        background: var(--ember-dark);
+    }
+
+.eb-btn--dark {
+    background: var(--ink);
+    color: var(--cream);
+}
+
+    .eb-btn--dark:hover {
+        background: #34281e;
+    }
+
+.eb-btn--success {
+    background: var(--green);
+}
+
+    .eb-btn--success:hover {
+        background: #34684b;
+    }
+
+.eb-btn--gold {
+    background: var(--amber);
+}
+
+    .eb-btn--gold:hover {
+        background: #a97532;
+    }
+
+.eb-btn--ghost {
+    background: var(--surface);
+    color: var(--ink);
+    border-color: var(--line);
+}
+
+    .eb-btn--ghost:hover {
+        background: #FBF7EF;
+    }
+
+.eb-btn--danger {
+    background: var(--surface);
+    color: var(--red);
+    border-color: #E7D9D6;
+}
+
+    .eb-btn--danger:hover {
+        background: #FBF1F0;
+    }
+
+.eb-btn--sm {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 12.5px;
+    border-radius: 8px;
+}
+
+.eb-btn--lg {
+    height: 48px;
+    padding: 0 26px;
+    font-size: 14.5px;
+    border-radius: 12px;
+}
+
+.eb-btn--block {
+    width: 100%;
+}
+
+.eb-btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* chips */
+.eb-chip {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: #5A5047;
+    padding: 9px 16px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+    .eb-chip:hover {
+        border-color: #D8CBB6;
+    }
+
+    .eb-chip.is-active {
+        background: var(--ink);
+        color: var(--cream);
+        border-color: var(--ink);
+        font-weight: 600;
+    }
+
+    .eb-chip:disabled {
+        background: var(--cream);
+        color: #C3B8A6;
+        cursor: not-allowed;
+    }
+
+/* cards & hero */
+.eb-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+}
+
+.eb-card--pad {
+    padding: 22px;
+}
+
+.eb-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    padding: 46px 44px;
+    color: var(--cream);
+    background: radial-gradient(circle at 82% 18%, rgba(224,138,79,.40), transparent 55%), linear-gradient(180deg,#2C231B,#211910);
+}
+
+.eb-eyebrow {
+    font-size: 11px;
+    letter-spacing: .3em;
+    color: var(--gold);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.eb-hero .eb-eyebrow {
+    color: #E0A86F;
+}
+
+.eb-hero h1 {
+    font-size: 44px;
+    margin: 12px 0 8px;
+}
+
+.eb-hero p {
+    color: #C9BCA9;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 460px;
+    margin: 0 0 22px;
+}
+
+/* page heading */
+.eb-head {
+    margin-bottom: 24px;
+}
+
+    .eb-head h1 {
+        font-size: 40px;
+        margin-top: 8px;
+    }
+
+/* forms */
+.eb-field {
+    margin-bottom: 16px;
+}
+
+.eb-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #5A5047;
+    margin-bottom: 7px;
+}
+
+.eb-input, .eb-select, .eb-textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    background: #FBF7EF;
+    border-radius: 10px;
+    padding: 11px 13px;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+    .eb-input:focus, .eb-select:focus, .eb-textarea:focus {
+        outline: none;
+        border-color: var(--ember);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(188,75,43,.12);
+    }
+
+.eb-textarea {
+    resize: vertical;
+    min-height: 64px;
+}
+
+.eb-toggle {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    border-radius: 99px;
+    border: none;
+    cursor: pointer;
+    background: #D8CDBB;
+    flex-shrink: 0;
+}
+
+    .eb-toggle.is-on {
+        background: var(--green);
+    }
+
+.eb-toggle__knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    transition: left .15s;
+}
+
+.eb-toggle.is-on .eb-toggle__knob {
+    left: 21px;
+}
+
+/* badges */
+.eb-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 99px;
+}
+
+    .eb-badge.is-confirmed, .eb-badge.is-available {
+        background: #E7F0EA;
+        color: #2E6B4C;
+    }
+
+    .eb-badge.is-pending {
+        background: #F6ECD9;
+        color: #9A6B1E;
+    }
+
+    .eb-badge.is-cancelled, .eb-badge.is-soldout {
+        background: #F1E4E2;
+        color: #9A4B43;
+    }
+
+    .eb-badge.is-cat {
+        color: var(--gold);
+        border: 1px solid #EAD9BD;
+    }
+
+.eb-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+/* alerts */
+.eb-alert {
+    border-radius: 11px;
+    padding: 11px 15px;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+}
+
+.eb-alert--error {
+    background: #F6E5E2;
+    color: #9A4B43;
+}
+
+.eb-alert--success {
+    background: #E7F0EA;
+    color: #2E6B4C;
+}
+
+.eb-alert--info {
+    background: var(--paper);
+    color: var(--muted2);
+}
+
+/* grids */
+.eb-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.eb-grid--auto {
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+}
+
+.eb-grid--3 {
+    grid-template-columns: repeat(3,1fr);
+}
+
+.eb-grid--4 {
+    grid-template-columns: repeat(4,1fr);
+}
+
+/* menu */
+.eb-price {
+    font-family: 'Cormorant Garamond',serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ember);
+}
+
+.eb-photo {
+    height: 160px;
+    border-radius: 11px;
+    background-size: cover;
+    background-position: center;
+}
+
+.eb-photo--ph {
+    background: radial-gradient(circle at 70% 30%, rgba(224,138,79,.18), transparent 60%), #2C231B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8F8375;
+    font-size: .85rem;
+    letter-spacing: .04em;
+}
+
+/* stat / tile */
+.eb-stat__label {
+    font-size: 12.5px;
+    color: var(--muted2);
+    font-weight: 500;
+}
+
+.eb-stat__value {
+    font-family: 'Cormorant Garamond',serif;
+    font-size: 34px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.eb-tile {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+    .eb-tile::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         height: 5px;
+        background: var(--ember);
     }
 
-    .dash-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    .eb-tile.green::before {
+        background: var(--green);
     }
 
-    .dash-card.blue::before {
-        background: #0d6efd;
+    .eb-tile.gold::before {
+        background: var(--gold);
     }
 
-    .dash-card.green::before {
-        background: #198754;
+    .eb-tile h3 {
+        font-size: 1.7rem;
+        margin-bottom: 10px;
     }
 
-    .dash-card.orange::before {
-        background: #fd7e14;
+    .eb-tile p {
+        color: var(--muted);
+        font-size: .95rem;
+        margin: 0 0 20px;
     }
 
-    .dash-card h3 {
-        font-weight: 700;
-        margin-bottom: 12px;
-        color: #1a1a2e;
-    }
-
-    .dash-card p {
-        color: #6c757d;
-        font-size: 0.95rem;
-    }
-
-/* ========== Page Headers ========== */
-.page-header {
-    background: linear-gradient(135deg, #1a1a2e, #0f3460);
-    color: white;
-    padding: 30px 0;
-    margin-bottom: 30px;
+/* reservation card */
+.eb-res {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    padding: 18px 20px;
+    border-left: 5px solid var(--amber);
 }
 
-    .page-header h2 {
-        font-weight: 700;
-        margin: 0;
+    .eb-res.is-confirmed {
+        border-left-color: var(--green);
     }
 
-/* ========== Form Cards ========== */
-.form-card {
-    border: none;
+    .eb-res.is-cancelled {
+        border-left-color: var(--red);
+        opacity: .65;
+    }
+
+.eb-res__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 74px;
+    flex-shrink: 0;
+    border-right: 1px solid #F1E9DA;
+    padding-right: 16px;
+}
+
+.eb-res__day {
+    font-family: 'Cormorant Garamond',serif;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* admin table */
+.eb-table-wrap {
+    border: 1px solid var(--line);
     border-radius: 16px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    background: white;
-}
-
-    .form-card h5 {
-        font-weight: 700;
-        color: #1a1a2e;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-    }
-
-/* ========== Tables ========== */
-.custom-table {
-    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow-x: auto;
 }
 
-    .custom-table thead {
-        background: linear-gradient(135deg, #1a1a2e, #16213e);
+.eb-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+}
+
+    .eb-table thead th {
+        background: var(--ink);
+        color: var(--cream);
+        font-size: .74rem;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding: 13px 16px;
+        text-align: left;
+        white-space: nowrap;
     }
 
-        .custom-table thead th {
-            color: white;
-            font-weight: 600;
-            padding: 14px 16px;
-            border: none;
-        }
-
-    .custom-table tbody td {
-        padding: 12px 16px;
+    .eb-table tbody td {
+        padding: 13px 16px;
+        border-top: 1px solid #F1E9DA;
+        font-size: 13.5px;
+        color: var(--muted2);
         vertical-align: middle;
     }
 
-    .custom-table tbody tr:hover {
-        background-color: #f8f9ff;
+    .eb-table tbody tr:hover {
+        background: #FBF7EF;
     }
 
-/* ========== Browse Cards (Tables/Menu) ========== */
-.browse-card {
-    border: none;
-    border-radius: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    overflow: hidden;
-    height: 100%;
-}
-
-    .browse-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-
-    .browse-card .card-body {
-        padding: 20px;
-    }
-
-    .browse-card .card-img-top {
-        height: 200px;
-        object-fit: cover;
-    }
-
-.no-image {
-    height: 200px;
-    background: linear-gradient(135deg, #e8e8e8, #f5f5f5);
+/* image url upload */
+.eb-upload {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #aaa;
-    font-size: 1.1rem;
+    height: 120px;
+    border-radius: 11px;
+    overflow: hidden;
+    border: 1.5px dashed #D8CBB6;
+    background: #FBF7EF;
+    color: var(--muted);
+    background-size: cover;
+    background-position: center;
+    font-size: 13px;
+    font-weight: 600;
 }
 
-/* ========== Reservation Cards ========== */
-.reservation-card {
+/* auth */
+.eb-auth {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.eb-auth__brand {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 70% 30%, rgba(224,138,79,.4), transparent 55%), linear-gradient(180deg,#2C231B,#1B140D);
+    color: var(--cream);
+    padding: 54px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+    .eb-auth__brand h1 {
+        font-size: 46px;
+        line-height: 1.05;
+        margin: 0 0 16px;
+    }
+
+    .eb-auth__brand p {
+        color: #C9BCA9;
+        font-size: 15px;
+        line-height: 1.6;
+        max-width: 380px;
+        margin: 0;
+    }
+
+.eb-auth__form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.eb-tabs {
+    display: flex;
+    background: #F1E9DA;
+    border-radius: 11px;
+    padding: 4px;
+    margin-bottom: 24px;
+}
+
+.eb-tab {
+    flex: 1;
     border: none;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
-    border-left: 5px solid #ffc107;
-}
-
-    .reservation-card:hover {
-        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    }
-
-    .reservation-card.confirmed {
-        border-left-color: #198754;
-    }
-
-    .reservation-card.cancelled {
-        border-left-color: #dc3545;
-    }
-
-/* ========== Filter Buttons ========== */
-.filter-group .btn {
-    border-radius: 20px;
-    padding: 6px 20px;
-    font-weight: 500;
-    margin-right: 5px;
-}
-
-/* ========== Badges ========== */
-.badge {
-    padding: 6px 12px;
-    font-weight: 500;
-    border-radius: 20px;
-}
-
-/* ========== Buttons ========== */
-.btn {
+    background: transparent;
+    padding: 10px;
     border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
 }
 
-    .btn:hover {
-        transform: translateY(-1px);
+    .eb-tab.is-active {
+        background: #fff;
+        color: var(--ink);
+        box-shadow: 0 1px 2px rgba(0,0,0,.06);
     }
 
-.btn-lg {
-    padding: 12px 30px;
-}
-
-/* ========== Reserve Form ========== */
-.reserve-card {
-    border: none;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-    .reserve-card h4 {
-        font-weight: 700;
-        color: #1a1a2e;
+@media (max-width:820px) {
+    .eb-auth {
+        grid-template-columns: 1fr;
     }
 
-/* ========== Price Tag ========== */
-.price-tag {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #0d6efd;
+    .eb-auth__brand {
+        display: none;
+    }
+
+    .eb-grid--4 {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .eb-grid--3 {
+        grid-template-columns: 1fr;
+    }
 }

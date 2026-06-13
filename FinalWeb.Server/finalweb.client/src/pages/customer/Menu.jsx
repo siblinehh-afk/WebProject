@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { getMenuItems } from "../../services/api";
 
+const CATEGORIES = ["All", "Appetizer", "Main", "Dessert", "Drink"];
+
 function Menu() {
     const [items, setItems] = useState([]);
     const [filter, setFilter] = useState("All");
@@ -21,36 +23,38 @@ function Menu() {
     return (
         <div>
             <Navbar />
-            <div className="page-header" style={{ background: "linear-gradient(135deg, #0f3460, #533483)" }}>
-                <div className="container"><h2>Our Menu</h2></div>
-            </div>
-            <div className="container">
-                {error && <div className="alert alert-danger">{error}</div>}
-                <div className="filter-group mb-4">
-                    {["All", "Appetizer", "Main", "Dessert", "Drink"].map(c => (
-                        <button key={c} className={`btn ${filter === c ? "btn-primary" : "btn-outline-primary"}`} onClick={() => setFilter(c)}>{c}</button>
+            <div className="eb-container eb-section">
+                <div className="eb-hero" style={{ marginBottom: 26 }}>
+                    <div className="eb-eyebrow">Seasonal · Wood-fired</div>
+                    <h1>Our Menu</h1>
+                    <p>Small plates, open-flame mains and natural wine — sourced weekly from local growers and the coast.</p>
+                </div>
+
+                {error && <div className="eb-alert eb-alert--error">{error}</div>}
+
+                <div className="eb-row" style={{ gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+                    {CATEGORIES.map((c) => (
+                        <button key={c} className={`eb-chip ${filter === c ? "is-active" : ""}`} onClick={() => setFilter(c)}>{c}</button>
                     ))}
                 </div>
-                <div className="row g-4">
+
+                <div className="eb-grid eb-grid--auto">
                     {filtered.map((i) => (
-                        <div className="col-md-4" key={i.id}>
-                            <div className="card browse-card">
-                                {i.imagePath ? (
-                                    <img src={i.imagePath} className="card-img-top" alt={i.name} />
-                                ) : (
-                                    <div className="no-image">No Image</div>
-                                )}
-                                <div className="card-body d-flex flex-column">
-                                    <h5 className="fw-bold">{i.name}</h5>
-                                    <span className="badge bg-secondary mb-2" style={{ width: "fit-content" }}>{i.category}</span>
-                                    {i.description && <p className="text-muted">{i.description}</p>}
-                                    <div className="price-tag mt-auto">${i.price.toFixed(2)}</div>
-                                </div>
+                        <div className="eb-card eb-card--pad" key={i.id}>
+                            {i.imagePath
+                                ? <div className="eb-photo" style={{ backgroundImage: `url("${i.imagePath}")`, marginBottom: 14 }} />
+                                : <div className="eb-photo eb-photo--ph" style={{ marginBottom: 14 }}>No photo</div>}
+                            <div className="eb-between" style={{ alignItems: "baseline" }}>
+                                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 600, fontSize: 23, lineHeight: 1.1 }}>{i.name}</span>
+                                <span className="eb-price">${i.price.toFixed(2)}</span>
                             </div>
+                            {i.description && <p style={{ margin: "8px 0 14px", color: "var(--muted2)", fontSize: 13.5, lineHeight: 1.5 }}>{i.description}</p>}
+                            <span className="eb-badge is-cat">{i.category}</span>
                         </div>
                     ))}
                 </div>
-                {filtered.length === 0 && <div className="alert alert-info mt-3">No items found in this category.</div>}
+
+                {filtered.length === 0 && <div className="eb-alert eb-alert--info" style={{ marginTop: 16 }}>No items found in this category.</div>}
             </div>
         </div>
     );

@@ -45,59 +45,82 @@ function AdminMenuItems() {
     return (
         <div>
             <Navbar />
-            <div className="page-header">
-                <div className="container"><h2>Manage Menu</h2></div>
-            </div>
-            <div className="container">
-                {error && <div className="alert alert-danger">{error}</div>}
-                <div className="form-card">
-                    <h5>{isEdit ? "Edit Item" : "Add New Item"}</h5>
+            <div className="eb-container eb-section">
+                <div className="eb-head">
+                    <div className="eb-eyebrow">Staff · Kitchen</div>
+                    <h1>Menu management</h1>
+                </div>
+
+                {error && <div className="eb-alert eb-alert--error">{error}</div>}
+
+                <div className="eb-card eb-card--pad" style={{ marginBottom: 26 }}>
+                    <h3 style={{ fontSize: 20, marginBottom: 16 }}>{isEdit ? "Edit item" : "Add new item"}</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <input type="text" name="name" placeholder="Item Name" className="form-control" value={item.name} onChange={handleChange} />
-                        </div>
-                        <div className="row g-3 mb-3">
-                            <div className="col-md-4">
-                                <select name="category" className="form-select" value={item.category} onChange={handleChange}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Name</label>
+                                <input className="eb-input" type="text" name="name" placeholder="Dish name" value={item.name} onChange={handleChange} />
+                            </div>
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Category</label>
+                                <select className="eb-select" name="category" value={item.category} onChange={handleChange}>
                                     <option value="Appetizer">Appetizer</option>
                                     <option value="Main">Main</option>
                                     <option value="Dessert">Dessert</option>
                                     <option value="Drink">Drink</option>
                                 </select>
                             </div>
-                            <div className="col-md-4">
-                                <input type="number" name="price" placeholder="Price" className="form-control" value={item.price} onChange={handleChange} step="0.01" />
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Price ($)</label>
+                                <input className="eb-input" type="number" name="price" placeholder="0.00" step="0.01" value={item.price} onChange={handleChange} />
                             </div>
-                            <div className="col-md-4">
-                                <input type="text" name="description" placeholder="Description" className="form-control" value={item.description} onChange={handleChange} />
+                            <div className="eb-field" style={{ margin: 0 }}>
+                                <label className="eb-label">Image URL</label>
+                                <input className="eb-input" type="text" name="imagePath" placeholder="https://…/photo.jpg" value={item.imagePath} onChange={handleChange} />
+                            </div>
+                            <div className="eb-field" style={{ margin: 0, gridColumn: "1 / -1" }}>
+                                <label className="eb-label">Description</label>
+                                <textarea className="eb-textarea" name="description" rows="2" placeholder="Short description" value={item.description} onChange={handleChange} />
                             </div>
                         </div>
-                        <div className="mb-3">
-                            <input type="text" name="imagePath" placeholder="Image URL" className="form-control" value={item.imagePath} onChange={handleChange} />
+
+                        {item.imagePath && (
+                            <div className="eb-upload" style={{ marginTop: 14, backgroundImage: `url("${item.imagePath}")` }} />
+                        )}
+
+                        <div className="eb-row" style={{ justifyContent: "space-between", marginTop: 16, flexWrap: "wrap", gap: 12 }}>
+                            <label className="eb-row" style={{ gap: 10, cursor: "pointer" }}>
+                                <button type="button" className={`eb-toggle ${item.isAvailable ? "is-on" : ""}`} onClick={() => setItem({ ...item, isAvailable: !item.isAvailable })}>
+                                    <span className="eb-toggle__knob" />
+                                </button>
+                                <span style={{ fontSize: 13.5, fontWeight: 500 }}>Available</span>
+                            </label>
+                            <div className="eb-row" style={{ gap: 10 }}>
+                                {isEdit && <button type="button" className="eb-btn eb-btn--ghost" onClick={clearForm}>Cancel</button>}
+                                <button type="submit" className="eb-btn eb-btn--primary">{isEdit ? "Update item" : "Add item"}</button>
+                            </div>
                         </div>
-                        <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Add Item"}</button>
-                        {isEdit && <button type="button" className="btn btn-secondary ms-2" onClick={clearForm}>Cancel</button>}
                     </form>
                 </div>
 
-                <div className="row g-4">
+                <div className="eb-grid eb-grid--auto">
                     {items.map((i) => (
-                        <div className="col-md-4" key={i.id}>
-                            <div className="card browse-card">
-                                {i.imagePath ? (
-                                    <img src={i.imagePath} className="card-img-top" alt={i.name} />
-                                ) : (
-                                    <div className="no-image">No Image</div>
-                                )}
-                                <div className="card-body">
-                                    <h5 className="fw-bold">{i.name}</h5>
-                                    <span className="badge bg-secondary me-2">{i.category}</span>
-                                    <span className={`badge ${i.isAvailable ? "bg-success" : "bg-danger"}`}>{i.isAvailable ? "Available" : "Unavailable"}</span>
-                                    {i.description && <p className="text-muted mt-2">{i.description}</p>}
-                                    <div className="price-tag mb-3">${i.price.toFixed(2)}</div>
-                                    <button onClick={() => handleEdit(i)} className="btn btn-warning btn-sm me-2">Edit</button>
-                                    <button onClick={() => handleDelete(i.id)} className="btn btn-danger btn-sm">Delete</button>
-                                </div>
+                        <div className="eb-card eb-card--pad" key={i.id} style={{ opacity: i.isAvailable ? 1 : 0.6 }}>
+                            {i.imagePath
+                                ? <div className="eb-photo" style={{ backgroundImage: `url("${i.imagePath}")`, marginBottom: 14 }} />
+                                : <div className="eb-photo eb-photo--ph" style={{ marginBottom: 14 }}>No photo</div>}
+                            <div className="eb-between" style={{ alignItems: "baseline" }}>
+                                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 600, fontSize: 22 }}>{i.name}</span>
+                                <span className="eb-price">${i.price.toFixed(2)}</span>
+                            </div>
+                            <div className="eb-row" style={{ gap: 8, margin: "10px 0 12px", flexWrap: "wrap" }}>
+                                <span className="eb-badge is-cat">{i.category}</span>
+                                <span className={`eb-badge ${i.isAvailable ? "is-available" : "is-soldout"}`}>{i.isAvailable ? "Available" : "86'd"}</span>
+                            </div>
+                            {i.description && <p style={{ fontSize: 13, color: "var(--muted2)", margin: "0 0 14px" }}>{i.description}</p>}
+                            <div className="eb-row" style={{ gap: 8 }}>
+                                <button className="eb-btn eb-btn--ghost eb-btn--sm" onClick={() => handleEdit(i)}>Edit</button>
+                                <button className="eb-btn eb-btn--danger eb-btn--sm" onClick={() => handleDelete(i.id)}>Delete</button>
                             </div>
                         </div>
                     ))}

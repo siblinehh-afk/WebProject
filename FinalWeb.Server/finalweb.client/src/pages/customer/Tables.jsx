@@ -24,20 +24,29 @@ function BrowseTables() {
     return (
         <div>
             <Navbar />
-            <div className="container mt-4">
-                <h2 className="mb-4 fw-bold">Available Tables</h2>
-                {error && <div className="alert alert-danger">{error}</div>}
-                <div className="row g-4">
+            <div className="eb-container eb-section">
+                <div className="eb-head">
+                    <div className="eb-eyebrow">Reservations</div>
+                    <h1>Choose your table</h1>
+                </div>
+
+                {error && <div className="eb-alert eb-alert--error">{error}</div>}
+
+                <div className="eb-grid eb-grid--auto">
                     {tables.map((t) => (
-                        <div className="col-md-4" key={t.id}>
-                            <div className={`card shadow-lg p-4 h-100 ${!t.isAvailable ? "opacity-50" : ""}`} style={{ borderRadius: "15px" }}>
-                                <h4 className="fw-bold">Table #{t.tableNumber}</h4>
-                                <p className="mb-1">Capacity: {t.capacity} seats</p>
-                                <p className="mb-1">Location: {t.location}</p>
-                                {t.description && <p className="text-muted">{t.description}</p>}
-                                <span className={`badge ${t.isAvailable ? "bg-success" : "bg-danger"} mb-3`} style={{ width: "fit-content" }}>{t.isAvailable ? "Available" : "Unavailable"}</span>
-                                {t.isAvailable && <button className="btn btn-primary mt-auto" onClick={() => navigate(`/customer/reserve/${t.id}`)}>Reserve This Table</button>}
+                        <div className="eb-card eb-card--pad" key={t.id} style={{ display: "flex", flexDirection: "column", opacity: t.isAvailable ? 1 : 0.6 }}>
+                            <div className="eb-between" style={{ marginBottom: 10 }}>
+                                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 600, fontSize: 25 }}>Table #{t.tableNumber}</span>
+                                <span className={`eb-badge ${t.isAvailable ? "is-available" : "is-cancelled"}`}>{t.isAvailable ? "Available" : "Booked"}</span>
                             </div>
+                            <div style={{ display: "flex", gap: 14, fontSize: 13, color: "var(--muted2)", marginBottom: 7 }}>
+                                <span>Seats {t.capacity}</span>
+                                <span>· {t.location}</span>
+                            </div>
+                            {t.description && <p style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.5, margin: "0 0 16px", minHeight: 36 }}>{t.description}</p>}
+                            {t.isAvailable && (
+                                <button className="eb-btn eb-btn--primary eb-btn--block" style={{ marginTop: "auto" }} onClick={() => navigate(`/customer/reserve/${t.id}`)}>Reserve this table</button>
+                            )}
                         </div>
                     ))}
                 </div>
